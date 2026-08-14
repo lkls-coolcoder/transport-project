@@ -1,0 +1,6 @@
+{
+  "name": "TransitPulse - Live Weather, Traffic & Commute Optimizer",
+  "description": "Real-time multi-modal transportation intelligence with live weather impacts, traffic congestion telemetry, fact-grounded route conditions, and uptime analytics.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

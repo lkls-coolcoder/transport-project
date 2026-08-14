@@ -7,6 +7,7 @@ import { TransitAlertsBoard } from './components/TransitAlertsBoard';
 import { DepartureWindowHeatmap } from './components/DepartureWindowHeatmap';
 import { FeedbackModal } from './components/FeedbackModal';
 import { SingaporeLTAPanel } from './components/SingaporeLTAPanel';
+import { RouteQueryBar } from './components/RouteQueryBar';
 
 import { CityLocation, WeatherData, TrafficIncident, TransitLineStatus, DepartureWindow } from './types';
 import { POPULAR_CITIES } from './data/cities';
@@ -191,6 +192,18 @@ export default function App() {
         {/* Tab 2: LIVE TRAFFIC & WEATHER MAP */}
         {activeTab === 'map' && (
           <div className="space-y-6 animate-in fade-in">
+            {/* Route Query Bar for Map view */}
+            <RouteQueryBar
+              city={currentCity}
+              origin={origin}
+              destination={destination}
+              setOrigin={setOrigin}
+              setDestination={setDestination}
+              distanceKm={distanceKm}
+              setDistanceKm={setDistanceKm}
+              onQuerySubmit={() => setActiveTab('optimizer')}
+            />
+
             {weather && (
               <LiveTrafficMap
                 city={currentCity}

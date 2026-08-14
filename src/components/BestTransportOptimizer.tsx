@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { CityLocation, WeatherData, BestTransportAnalysis, RouteOption, TransportMode } from '../types';
 import { computeMultiModalRoutes } from '../services/commuteOptimizer';
+import { RouteQueryBar } from './RouteQueryBar';
 
 interface BestTransportOptimizerProps {
   city: CityLocation;
@@ -61,12 +62,6 @@ export const BestTransportOptimizer: React.FC<BestTransportOptimizerProps> = ({
   );
 
   const bestRoute = analysis.routes.find(r => r.isBestChoice) || analysis.routes[0];
-
-  const handleSwap = () => {
-    const temp = origin;
-    setOrigin(destination);
-    setDestination(temp);
-  };
 
   const handleFetchAiAdvisory = async () => {
     setAiAdvisoryLoading(true);
@@ -116,97 +111,17 @@ export const BestTransportOptimizer: React.FC<BestTransportOptimizerProps> = ({
   return (
     <div id="transport-optimizer-section" className="space-y-6">
       
-      {/* Route Selector & Origin / Destination Card */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm text-slate-800">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
-          <div>
-            <div className="flex items-center space-x-2">
-              <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Commute Route Config</h3>
-              <span className="text-xs text-indigo-600 font-semibold font-mono">({city.name})</span>
-            </div>
-            <h2 className="text-base font-bold text-slate-900 mt-0.5">Origin & Destination Corridor</h2>
-          </div>
-
-          {/* Quick preset corridors */}
-          <div className="flex flex-wrap gap-1.5 pt-1 sm:pt-0">
-            {city.popularRoutes.map((preset, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setOrigin(preset.origin);
-                  setDestination(preset.destination);
-                  setDistanceKm(preset.distanceKm);
-                }}
-                className="text-xs font-medium bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-slate-600 px-3 py-1 rounded-xl border border-slate-200 transition-colors shadow-xs"
-              >
-                {preset.origin.split(',')[0]} → {preset.destination.split('/')[0]} ({preset.distanceKm} km)
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Inputs row */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 mt-4 items-center">
-          <div className="md:col-span-5 relative">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 flex items-center space-x-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              <span>ORIGIN / DEPARTURE POINT</span>
-            </div>
-            <div className="relative">
-              <MapPin className="w-4 h-4 absolute left-3 top-3 text-indigo-600" />
-              <input
-                type="text"
-                value={origin}
-                onChange={(e) => setOrigin(e.target.value)}
-                placeholder="Enter origin location..."
-                className="w-full bg-slate-50 text-sm text-slate-900 pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-600 focus:bg-white font-medium transition-colors"
-              />
-            </div>
-          </div>
-
-          <div className="md:col-span-1 flex justify-center pt-2 md:pt-4">
-            <button
-              onClick={handleSwap}
-              className="p-2.5 bg-slate-50 hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 text-slate-600 rounded-xl border border-slate-200 transition-colors shadow-xs"
-              title="Swap origin and destination"
-            >
-              <ArrowRightLeft className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="md:col-span-4 relative">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 flex items-center space-x-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-              <span>DESTINATION POINT</span>
-            </div>
-            <div className="relative">
-              <Navigation className="w-4 h-4 absolute left-3 top-3 text-indigo-600" />
-              <input
-                type="text"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                placeholder="Enter destination location..."
-                className="w-full bg-slate-50 text-sm text-slate-900 pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-600 focus:bg-white font-medium transition-colors"
-              />
-            </div>
-          </div>
-
-          <div className="md:col-span-2">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">
-              CORRIDOR: <span className="text-slate-900 font-mono font-bold">{distanceKm} km</span>
-            </div>
-            <input
-              type="range"
-              min={1}
-              max={35}
-              step={0.5}
-              value={distanceKm}
-              onChange={(e) => setDistanceKm(parseFloat(e.target.value))}
-              className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
-            />
-          </div>
-        </div>
-      </div>
+      {/* Route Query Bar with GPS Coordinate resolution & landmark presets */}
+      <RouteQueryBar
+        city={city}
+        origin={origin}
+        destination={destination}
+        setOrigin={setOrigin}
+        setDestination={setDestination}
+        distanceKm={distanceKm}
+        setDistanceKm={setDistanceKm}
+        onQuerySubmit={handleFetchAiAdvisory}
+      />
 
       {/* Hero Card: BEST TRANSPORT CONDITION */}
       <div className="bg-slate-900 text-white rounded-3xl p-6 shadow-xl border border-slate-800 relative overflow-hidden">

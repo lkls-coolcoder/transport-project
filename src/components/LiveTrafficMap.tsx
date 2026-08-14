@@ -11,9 +11,11 @@ import {
   Eye, 
   ShieldCheck,
   Info,
-  Car
+  Car,
+  MapPin
 } from 'lucide-react';
 import { CityLocation, TrafficIncident, WeatherData } from '../types';
+import { parseGpsCoordinates, formatCoordinates } from '../utils/geoUtils';
 
 interface LiveTrafficMapProps {
   city: CityLocation;
@@ -35,6 +37,9 @@ export const LiveTrafficMap: React.FC<LiveTrafficMapProps> = ({
   const [showTransitLines, setShowTransitLines] = useState(true);
   const [showWeatherOverlay, setShowWeatherOverlay] = useState(true);
   const [zoomLevel, setZoomLevel] = useState(1);
+
+  const originCoords = parseGpsCoordinates(origin);
+  const destCoords = parseGpsCoordinates(destination);
 
   return (
     <div id="live-traffic-map-card" className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm text-slate-800 relative overflow-hidden">
@@ -259,7 +264,7 @@ export const LiveTrafficMap: React.FC<LiveTrafficMapProps> = ({
               <circle r="14" fill="#10b981" opacity="0.3" className="animate-ping" />
               <circle r="8" fill="#10b981" stroke="#ffffff" strokeWidth="2" />
               <text x="12" y="4" fill="#6ee7b7" fontSize="12" fontWeight="bold" fontFamily="sans-serif">
-                START: {origin.split(',')[0]}
+                START: {originCoords ? `📍 ${formatCoordinates(originCoords.lat, originCoords.lng)}` : origin.split(',')[0]}
               </text>
             </g>
 
@@ -267,7 +272,7 @@ export const LiveTrafficMap: React.FC<LiveTrafficMapProps> = ({
               <circle r="14" fill="#6366f1" opacity="0.3" className="animate-ping" />
               <circle r="8" fill="#6366f1" stroke="#ffffff" strokeWidth="2" />
               <text x="12" y="4" fill="#c7d2fe" fontSize="12" fontWeight="bold" fontFamily="sans-serif">
-                DEST: {destination.split('/')[0]}
+                DEST: {destCoords ? `📍 ${formatCoordinates(destCoords.lat, destCoords.lng)}` : destination.split('/')[0]}
               </text>
             </g>
           </svg>

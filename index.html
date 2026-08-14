@@ -7,13 +7,39 @@
     <meta name="description" content="Real-time multi-modal transit optimizer, live weather hazards, and route intelligence." />
     <!-- Global Script Error Shield for third-party trackers & sandboxed iframes -->
     <script>
-      window.addEventListener('error', function(event) {
-        if (event && (event.message === 'Script error.' || !event.filename || event.filename.includes('clarity.ms') || event.filename.includes('disqus.com'))) {
-          // Prevent noisy cross-origin third-party script errors from logging to console or breaking iframe hosts
-          if (event.preventDefault) event.preventDefault();
-          return true;
-        }
-      }, true);
+      (function() {
+        // Universal suppression of cross-origin opaque Script errors from third-party services
+        window.onerror = function(message, source, lineno, colno, error) {
+          if (!message || message === 'Script error.' || message === 'Script error' || (typeof message === 'string' && message.toLowerCase().includes('script error'))) {
+            return true;
+          }
+          if (source && (source.includes('clarity.ms') || source.includes('disqus') || source.includes('doubleclick'))) {
+            return true;
+          }
+          return false;
+        };
+
+        window.addEventListener('error', function(event) {
+          if (!event) return;
+          const msg = event.message || '';
+          const filename = event.filename || '';
+          if (msg === 'Script error.' || msg === 'Script error' || msg.toLowerCase().includes('script error') || !filename || filename.includes('clarity.ms') || filename.includes('disqus.com') || filename.includes('count.js')) {
+            if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+            if (event.stopPropagation) event.stopPropagation();
+            if (event.preventDefault) event.preventDefault();
+            return true;
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event && event.reason) {
+            const reasonStr = String(event.reason);
+            if (reasonStr.includes('Script error') || reasonStr.includes('clarity') || reasonStr.includes('disqus')) {
+              if (event.preventDefault) event.preventDefault();
+            }
+          }
+        });
+      })();
     </script>
     <script type="text/javascript">
       try {

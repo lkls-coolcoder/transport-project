@@ -21,8 +21,8 @@ interface NavbarProps {
   onUseGeolocation: () => void;
   unit: 'celsius' | 'fahrenheit';
   onToggleUnit: () => void;
-  activeTab: 'optimizer' | 'map' | 'alerts' | 'telemetry';
-  setActiveTab: (tab: 'optimizer' | 'map' | 'alerts' | 'telemetry') => void;
+  activeTab: 'optimizer' | 'map' | 'alerts';
+  setActiveTab: (tab: 'optimizer' | 'map' | 'alerts') => void;
   onOpenFeedback: () => void;
   isLoading: boolean;
   onRefresh: () => void;
@@ -227,19 +227,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <AlertTriangle className="w-4 h-4" />
             <span>Transit & Incident Alerts</span>
-          </button>
-
-          <button
-            id="tab-telemetry"
-            onClick={() => setActiveTab('telemetry')}
-            className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${
-              activeTab === 'telemetry' 
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200' 
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
-          >
-            <Activity className="w-4 h-4" />
-            <span>Health & Telemetry Analytics</span>
           </button>
         </div>
       </div>

@@ -2,6 +2,32 @@ import { CityLocation } from '../types';
 
 export const POPULAR_CITIES: CityLocation[] = [
   {
+    id: 'sin',
+    name: 'Singapore',
+    country: 'Singapore',
+    region: 'Asia Pacific',
+    lat: 1.3521,
+    lng: 103.8198,
+    timezone: 'Asia/Singapore',
+    transitAgency: 'LTA / SMRT & SBS Transit',
+    defaultOrigin: 'Jurong East Hub',
+    defaultDestination: 'Marina Bay Financial Centre',
+    popularRoutes: [
+      {
+        origin: 'Jurong East Hub',
+        destination: 'Marina Bay Financial Centre',
+        distanceKm: 16.8,
+        description: 'East-West Line & AYE expressway'
+      },
+      {
+        origin: 'Orchard Road',
+        destination: 'Changi Airport T3',
+        distanceKm: 22.0,
+        description: 'PIE Expressway & Downtown / EW Line'
+      }
+    ]
+  },
+  {
     id: 'nyc',
     name: 'New York City',
     country: 'USA',
@@ -152,32 +178,6 @@ export const POPULAR_CITIES: CityLocation[] = [
         destination: 'Châtelet - Les Halles',
         distanceKm: 4.2,
         description: 'Left Bank to Central Paris connection'
-      }
-    ]
-  },
-  {
-    id: 'sin',
-    name: 'Singapore',
-    country: 'Singapore',
-    region: 'Asia Pacific',
-    lat: 1.3521,
-    lng: 103.8198,
-    timezone: 'Asia/Singapore',
-    transitAgency: 'LTA / SMRT & SBS Transit',
-    defaultOrigin: 'Jurong East Hub',
-    defaultDestination: 'Marina Bay Financial Centre',
-    popularRoutes: [
-      {
-        origin: 'Jurong East Hub',
-        destination: 'Marina Bay Financial Centre',
-        distanceKm: 16.8,
-        description: 'East-West Line & AYE expressway'
-      },
-      {
-        origin: 'Orchard Road',
-        destination: 'Changi Airport T3',
-        distanceKm: 22.0,
-        description: 'PIE Expressway & Downtown / EW Line'
       }
     ]
   },

@@ -5,7 +5,6 @@ import { LiveTrafficMap } from './components/LiveTrafficMap';
 import { BestTransportOptimizer } from './components/BestTransportOptimizer';
 import { TransitAlertsBoard } from './components/TransitAlertsBoard';
 import { DepartureWindowHeatmap } from './components/DepartureWindowHeatmap';
-import { SystemHealthAnalytics } from './components/SystemHealthAnalytics';
 import { FeedbackModal } from './components/FeedbackModal';
 
 import { CityLocation, WeatherData, TrafficIncident, TransitLineStatus, DepartureWindow } from './types';
@@ -16,7 +15,6 @@ import {
   ShieldCheck, 
   MapPin, 
   Sparkles, 
-  Activity, 
   Layers, 
   Clock, 
   Zap, 
@@ -29,7 +27,7 @@ export default function App() {
   const [currentCity, setCurrentCity] = useState<CityLocation>(POPULAR_CITIES[0]);
   const [origin, setOrigin] = useState<string>(POPULAR_CITIES[0].defaultOrigin);
   const [destination, setDestination] = useState<string>(POPULAR_CITIES[0].defaultDestination);
-  const [distanceKm, setDistanceKm] = useState<number>(POPULAR_CITIES[0].popularRoutes[0]?.distanceKm || 6.8);
+  const [distanceKm, setDistanceKm] = useState<number>(POPULAR_CITIES[0].popularRoutes[0]?.distanceKm || 16.8);
   
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [incidents, setIncidents] = useState<TrafficIncident[]>([]);
@@ -37,7 +35,7 @@ export default function App() {
   const [departureWindows, setDepartureWindows] = useState<DepartureWindow[]>([]);
   
   const [unit, setUnit] = useState<'celsius' | 'fahrenheit'>('celsius');
-  const [activeTab, setActiveTab] = useState<'optimizer' | 'map' | 'alerts' | 'telemetry'>('optimizer');
+  const [activeTab, setActiveTab] = useState<'optimizer' | 'map' | 'alerts'>('optimizer');
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -223,13 +221,6 @@ export default function App() {
             {weather && <WeatherCard weather={weather} unit={unit} cityName={currentCity.name} />}
           </div>
         )}
-
-        {/* Tab 4: TELEMETRY & LOW-COST MAINTENANCE */}
-        {activeTab === 'telemetry' && (
-          <div className="space-y-6 animate-in fade-in">
-            <SystemHealthAnalytics />
-          </div>
-        )}
       </main>
 
       {/* Footer with Master Prompt Verification Directives */}
@@ -246,13 +237,6 @@ export default function App() {
               className="text-indigo-600 hover:text-indigo-800 font-semibold"
             >
               Report Broken Link / Issue
-            </button>
-            <span>•</span>
-            <button
-              onClick={() => setActiveTab('telemetry')}
-              className="text-indigo-600 hover:text-indigo-800 font-semibold"
-            >
-              System Health & Analytics
             </button>
           </div>
         </div>

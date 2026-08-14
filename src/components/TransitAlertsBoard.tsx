@@ -14,6 +14,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { CityLocation, TrafficIncident, TransitLineStatus } from '../types';
+import { SingaporeLTAPanel } from './SingaporeLTAPanel';
 
 interface TransitAlertsBoardProps {
   city: CityLocation;
@@ -39,6 +40,11 @@ export const TransitAlertsBoard: React.FC<TransitAlertsBoardProps> = ({
 
   return (
     <div id="transit-alerts-board-section" className="space-y-6">
+      
+      {/* If Singapore is selected, render the full interactive LTA DataMall v3 Panel */}
+      {city.id === 'sin' && (
+        <SingaporeLTAPanel />
+      )}
       
       {/* Transit Lines Status Grid */}
       <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm text-slate-800">

@@ -6,6 +6,7 @@ import { BestTransportOptimizer } from './components/BestTransportOptimizer';
 import { TransitAlertsBoard } from './components/TransitAlertsBoard';
 import { DepartureWindowHeatmap } from './components/DepartureWindowHeatmap';
 import { FeedbackModal } from './components/FeedbackModal';
+import { SingaporeLTAPanel } from './components/SingaporeLTAPanel';
 
 import { CityLocation, WeatherData, TrafficIncident, TransitLineStatus, DepartureWindow } from './types';
 import { POPULAR_CITIES } from './data/cities';
@@ -176,6 +177,13 @@ export default function App() {
                 distanceKm={distanceKm}
                 setDistanceKm={setDistanceKm}
               />
+            )}
+
+            {/* Singapore LTA DataMall Live Telemetry Panel */}
+            {currentCity.id === 'sin' && (
+              <div className="mt-6">
+                <SingaporeLTAPanel />
+              </div>
             )}
           </div>
         )}

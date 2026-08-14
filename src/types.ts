@@ -145,3 +145,54 @@ export interface FeedbackReport {
   status: 'Received' | 'Investigating' | 'Resolved';
   timestamp: string;
 }
+
+// Singapore LTA DataMall Interfaces
+export interface LTANextBusInfo {
+  OriginCode?: string;
+  DestinationCode?: string;
+  EstimatedArrival: string;
+  Latitude?: string;
+  Longitude?: string;
+  VisitNumber?: string;
+  Load?: 'SEA' | 'SDA' | 'LSD' | string; // SEA = Seats Available, SDA = Standing Available, LSD = Limited Standing
+  Feature?: 'WAB' | string; // Wheelchair Accessible Bus
+  Type?: 'SD' | 'DD' | 'BD' | string; // Single Deck, Double Deck, Bendy
+}
+
+export interface LTABusService {
+  ServiceNo: string;
+  Operator: string;
+  NextBus: LTANextBusInfo;
+  NextBus2?: LTANextBusInfo;
+  NextBus3?: LTANextBusInfo;
+}
+
+export interface LTABusArrivalData {
+  BusStopCode: string;
+  Services: LTABusService[];
+}
+
+export interface LTACarparkItem {
+  CarParkID: string;
+  Area: string;
+  Development: string;
+  Location: string;
+  AvailableLots: number;
+  LotType: 'C' | 'H' | 'Y' | string; // C = Cars, H = Heavy vehicles, Y = Motorcycles
+  Agency: 'LTA' | 'HDB' | 'URA' | string;
+}
+
+export interface LTATrafficIncidentItem {
+  Type: string;
+  Latitude: number;
+  Longitude: number;
+  Message: string;
+}
+
+export interface LTATrainAlertData {
+  Status: number; // 1 = Normal, 2 = Disrupted
+  Message?: {
+    Content: string;
+    CreatedDate: string;
+  }[];
+}

@@ -8,6 +8,7 @@ import { DepartureWindowHeatmap } from './components/DepartureWindowHeatmap';
 import { FeedbackModal } from './components/FeedbackModal';
 import { SingaporeLTAPanel } from './components/SingaporeLTAPanel';
 import { RouteQueryBar } from './components/RouteQueryBar';
+import { DisqusForum } from './components/DisqusForum';
 
 import { CityLocation, WeatherData, TrafficIncident, TransitLineStatus, DepartureWindow } from './types';
 import { POPULAR_CITIES } from './data/cities';
@@ -242,6 +243,9 @@ export default function App() {
             {weather && <WeatherCard weather={weather} unit={unit} cityName={currentCity.name} />}
           </div>
         )}
+
+        {/* Embedded Community Discussion Forum */}
+        <DisqusForum currentCityName={currentCity.name} />
       </main>
 
       {/* Footer with Master Prompt Verification Directives */}

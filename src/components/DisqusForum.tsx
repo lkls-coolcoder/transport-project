@@ -7,33 +7,42 @@ interface DisqusForumProps {
 
 export const DisqusForum: React.FC<DisqusForumProps> = ({ currentCityName = 'Transit Community' }) => {
   useEffect(() => {
-    // Check if Disqus embed script is already loaded
-    const scriptId = 'disqus-embed-script';
-    const existingScript = document.getElementById(scriptId);
+    try {
+      // Set global disqus_config
+      (window as any).disqus_config = function () {
+        this.page.identifier = 'transitpulse-global-discussion';
+        this.page.url = window.location.href.split('#')[0];
+        this.page.title = 'TransitPulse Community Discussion Forum';
+      };
 
-    // If DISQUS global exists in window, reset it for the current page
-    if ((window as any).DISQUS) {
-      try {
-        (window as any).DISQUS.reset({
-          reload: true,
-          config: function () {
-            this.page.identifier = 'transitpulse-global-discussion';
-            this.page.url = window.location.href;
-            this.page.title = 'TransitPulse Community Discussion Forum';
-          }
-        });
-      } catch (e) {
-        console.warn('Disqus reset error:', e);
+      const scriptId = 'disqus-embed-script';
+      const existingScript = document.getElementById(scriptId);
+
+      // If DISQUS global exists in window, reset it for the current page
+      if ((window as any).DISQUS) {
+        try {
+          (window as any).DISQUS.reset({
+            reload: true,
+            config: (window as any).disqus_config
+          });
+        } catch (e) {
+          console.warn('Disqus reset error:', e);
+        }
+      } else if (!existingScript) {
+        // Inject Disqus script safely
+        const d = document;
+        const s = d.createElement('script');
+        s.id = scriptId;
+        s.src = 'https://agentic-ai-course-sl.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', (+new Date()).toString());
+        s.async = true;
+        s.onerror = () => {
+          console.warn('Disqus embed script unavailable or blocked by browser');
+        };
+        (d.head || d.body).appendChild(s);
       }
-    } else if (!existingScript) {
-      // Inject Disqus script
-      const d = document;
-      const s = d.createElement('script');
-      s.id = scriptId;
-      s.src = 'https://agentic-ai-course-sl.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', (+new Date()).toString());
-      s.async = true;
-      (d.head || d.body).appendChild(s);
+    } catch (err) {
+      console.warn('Disqus initialization skipped:', err);
     }
   }, []);
 
